@@ -1,0 +1,22 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "cinpy"
+version = "0.1.0"
+description = "Inline C for Python via CFFI"
+readme = "README.md"
+requires-python = ">=3.9"
+license = "MIT"
+authors = [{ name = "Bilakshan Purohit", email = "noreply@___.com" }]
+dependencies = ["cffi>=1.17"]
+
+[project.urls]
+homepage = "https://github.com/bilakshanp/cinpy"
+
+[tool.hatch.build]
+sources = ["src"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["cinpy"]
