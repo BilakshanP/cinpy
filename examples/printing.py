@@ -25,7 +25,7 @@ def print_float(n: float) -> None:
             printf("%s", s);
         }
         """,
-        preprocess=lambda s: tuple([_s.encode() for _s in s])
+        preprocess=lambda s: (s[0].encode(),)
 )
 def print_str(s: str) -> None: ...
 
