@@ -1,4 +1,9 @@
 /dist
-/tests
-
 __pycache__
+*.so
+*.o
+*.egg-info
+.cinpy_cache/
+.pytest_cache/
+htmlcov/
+.coverage

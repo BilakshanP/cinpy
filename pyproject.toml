@@ -4,19 +4,41 @@ build-backend = "hatchling.build"
 
 [project]
 name = "cinpy"
-version = "0.1.0"
+version = "2.0.0"
 description = "Inline C for Python via CFFI"
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.12"
 license = "MIT"
 authors = [{ name = "Bilakshan Purohit", email = "noreply@___.com" }]
-dependencies = ["cffi>=1.17"]
+dependencies = ["cffi>=1.17", "setuptools>=70.0"]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.0", "pytest-cov>=4.0", "ruff>=0.8.0", "basedpyright>=1.22.0"]
 
 [project.urls]
 homepage = "https://github.com/bilakshanp/cinpy"
+
+[project.scripts]
+cinpy-example = "cinpy._cli:run_example"
 
 [tool.hatch.build]
 sources = ["src"]
 
 [tool.hatch.build.targets.wheel]
-packages = ["cinpy"]
+packages = ["src/cinpy"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM"]
+
+[tool.basedpyright]
+pythonVersion = "3.12"
+typeCheckingMode = "standard"
+venvPath = "."
+venv = ".venv"
