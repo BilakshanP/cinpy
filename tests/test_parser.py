@@ -1,4 +1,10 @@
-from cinpy.parser import extract_functions, extract_includes, generate_header, Param, FunctionSignature
+from cinpy.parser import (
+    extract_functions,
+    extract_includes,
+    generate_header,
+    Param,
+    FunctionSignature,
+)
 
 
 def test_simple_function():
@@ -11,14 +17,14 @@ def test_simple_function():
 
 
 def test_void_return_no_params():
-    src = "void hello(void) { printf(\"hi\"); }"
+    src = 'void hello(void) { printf("hi"); }'
     fns = extract_functions(src)
     assert fns[0].return_type == "void"
     assert fns[0].params == []
 
 
 def test_pointer_params():
-    src = 'int strlen_c(const char* s) { return 0; }'
+    src = "int strlen_c(const char* s) { return 0; }"
     fns = extract_functions(src)
     assert fns[0].params[0].type == "const char*"
     assert fns[0].params[0].name == "s"
@@ -73,7 +79,7 @@ def test_extract_includes():
     int foo(int x) { return x; }
     """
     includes = extract_includes(src)
-    assert '#include <stdio.h>' in includes
+    assert "#include <stdio.h>" in includes
     assert '#include "myheader.h"' in includes
 
 

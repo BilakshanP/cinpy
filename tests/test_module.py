@@ -23,13 +23,13 @@ def test_shared_state():
 
 
 def test_auto_coerce_str():
-    mod = CModule('int len_c(const char* s) { int n=0; while(s[n]) n++; return n; }')
+    mod = CModule("int len_c(const char* s) { int n=0; while(s[n]) n++; return n; }")
     assert mod.len_c("hello") == 5
 
 
 def test_libraries():
     mod = CModule(
-        '#include <math.h>\ndouble my_sin(double x) { return sin(x); }',
+        "#include <math.h>\ndouble my_sin(double x) { return sin(x); }",
         libraries=["m"],
     )
     assert abs(mod.my_sin(0.0)) < 1e-9
@@ -47,9 +47,12 @@ def test_attribute_error():
 
 
 def test_struct_via_ffi():
-    mod = CModule("""
+    mod = CModule(
+        """
         typedef struct { int x; int y; } Point;
         int sum_point(Point p) { return p.x + p.y; }
-    """, header="typedef struct { int x; int y; } Point; int sum_point(Point p);")
+    """,
+        header="typedef struct { int x; int y; } Point; int sum_point(Point p);",
+    )
     p = mod.ffi.new("Point *", {"x": 3, "y": 7})
     assert mod.sum_point(p[0]) == 10

@@ -2,7 +2,8 @@
 
 from cinpy import CModule, c_struct, to_python
 
-mod = CModule("""
+mod = CModule(
+    """
     typedef struct { double x; double y; } Vec2;
 
     Vec2 vec2_add(Vec2 a, Vec2 b) {
@@ -13,11 +14,13 @@ mod = CModule("""
     double vec2_dot(Vec2 a, Vec2 b) {
         return a.x * b.x + a.y * b.y;
     }
-""", header="""
+""",
+    header="""
     typedef struct { double x; double y; } Vec2;
     Vec2 vec2_add(Vec2 a, Vec2 b);
     double vec2_dot(Vec2 a, Vec2 b);
-""")
+""",
+)
 
 if __name__ == "__main__":
     a = c_struct(mod, "Vec2", x=1.0, y=2.0)

@@ -1,8 +1,11 @@
 import os
 import pytest
 from cinpy.errors import (
-    CinPyCompileError, CinPyTypeError, CinPyParseError,
-    set_debug, is_debug,
+    CinPyCompileError,
+    CinPyTypeError,
+    CinPyParseError,
+    set_debug,
+    is_debug,
 )
 
 

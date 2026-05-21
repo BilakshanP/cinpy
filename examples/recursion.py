@@ -1,5 +1,6 @@
 from cinpy import from_c
 
+
 @from_c("""
     int factorial(int n) {
         if (n <= 0) return 1;
@@ -7,6 +8,7 @@ from cinpy import from_c
     }
 """)
 def factorial(n: int) -> int: ...
+
 
 if __name__ == "__main__":
     assert factorial(-1) == 1

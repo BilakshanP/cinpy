@@ -18,7 +18,7 @@ def test_default_args():
 
 
 def test_auto_coerce_str_to_bytes():
-    @from_c('int strlen_c(const char* s) { int n=0; while(s[n]) n++; return n; }')
+    @from_c("int strlen_c(const char* s) { int n=0; while(s[n]) n++; return n; }")
     def strlen_c(s: str) -> int: ...
 
     assert strlen_c("hello") == 5
@@ -26,7 +26,7 @@ def test_auto_coerce_str_to_bytes():
 
 def test_libraries_param():
     @from_c(
-        '#include <math.h>\ndouble my_sqrt(double x) { return sqrt(x); }',
+        "#include <math.h>\ndouble my_sqrt(double x) { return sqrt(x); }",
         libraries=["m"],
     )
     def my_sqrt(x: float) -> float: ...
@@ -58,10 +58,9 @@ def test_multi_function_source():
 
 def test_preprocess_backward_compat():
     @from_c(
-        'void print_s(char* s) { }',
+        "void print_s(char* s) { }",
         preprocess=lambda args: (args[0].encode(),),
     )
     def print_s(s: str) -> None: ...
 
     print_s("hello")  # Should not raise
-

@@ -16,19 +16,25 @@ def test_c_array_sum():
 
 
 def test_c_struct_pass():
-    mod = CModule("""
+    mod = CModule(
+        """
         typedef struct { int x; int y; } Point;
         int sum_point(Point p) { return p.x + p.y; }
-    """, header="typedef struct { int x; int y; } Point; int sum_point(Point p);")
+    """,
+        header="typedef struct { int x; int y; } Point; int sum_point(Point p);",
+    )
     p = c_struct(mod, "Point", x=10, y=20)
     assert mod.sum_point(p) == 30
 
 
 def test_to_python_struct():
-    mod = CModule("""
+    mod = CModule(
+        """
         typedef struct { int x; int y; } Point;
         Point make_point(int x, int y) { Point p = {x, y}; return p; }
-    """, header="typedef struct { int x; int y; } Point; Point make_point(int x, int y);")
+    """,
+        header="typedef struct { int x; int y; } Point; Point make_point(int x, int y);",
+    )
     p = mod._lib.make_point(3, 7)
     d = to_python(p, mod)
     assert d == {"x": 3, "y": 7}

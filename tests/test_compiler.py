@@ -5,15 +5,15 @@ from cinpy.compiler import compile_module, _cache_key
 
 
 def test_compile_basic(tmp_path):
-    source = '#include <stdio.h>\nint add(int a, int b) { return a + b; }'
-    header = 'int add(int a, int b);'
+    source = "#include <stdio.h>\nint add(int a, int b) { return a + b; }"
+    header = "int add(int a, int b);"
     ffi, lib = compile_module(source, header, cache_dir=tmp_path)
     assert lib.add(2, 3) == 5
 
 
 def test_cache_hit(tmp_path):
-    source = 'int mul(int a, int b) { return a * b; }'
-    header = 'int mul(int a, int b);'
+    source = "int mul(int a, int b) { return a * b; }"
+    header = "int mul(int a, int b);"
 
     # First compile
     t0 = time.perf_counter()
@@ -31,9 +31,9 @@ def test_cache_hit(tmp_path):
 
 
 def test_cache_invalidation(tmp_path):
-    header = 'int val(void);'
-    source1 = 'int val(void) { return 1; }'
-    source2 = 'int val(void) { return 2; }'
+    header = "int val(void);"
+    source1 = "int val(void) { return 1; }"
+    source2 = "int val(void) { return 2; }"
 
     _, lib1 = compile_module(source1, header, cache_dir=tmp_path)
     assert lib1.val() == 1
@@ -43,8 +43,8 @@ def test_cache_invalidation(tmp_path):
 
 
 def test_libraries(tmp_path):
-    source = '#include <math.h>\ndouble my_sqrt(double x) { return sqrt(x); }'
-    header = 'double my_sqrt(double x);'
+    source = "#include <math.h>\ndouble my_sqrt(double x) { return sqrt(x); }"
+    header = "double my_sqrt(double x);"
     _, lib = compile_module(source, header, cache_dir=tmp_path, libraries=["m"])
     assert abs(lib.my_sqrt(4.0) - 2.0) < 1e-9
 

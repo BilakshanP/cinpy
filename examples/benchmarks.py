@@ -4,8 +4,8 @@ import time
 
 from cinpy import CModule, from_c
 
-
 # --- Fibonacci ---
+
 
 def py_fib(n: int) -> int:
     if n <= 1:
@@ -23,6 +23,7 @@ def c_fib(n: int) -> int: ...
 
 
 # --- Sum array ---
+
 
 def py_sum(data: list[int]) -> int:
     total = 0
@@ -42,6 +43,7 @@ sum_mod = CModule("""
 
 # --- Prime sieve ---
 
+
 def py_count_primes(n: int) -> int:
     if n < 2:
         return 0
@@ -54,7 +56,8 @@ def py_count_primes(n: int) -> int:
     return sum(sieve)
 
 
-@from_c("""
+@from_c(
+    """
     int c_count_primes(int n) {
         if (n < 2) return 0;
         char* sieve = (char*)malloc(n + 1);
@@ -71,7 +74,9 @@ def py_count_primes(n: int) -> int:
         free(sieve);
         return count;
     }
-""", header="int c_count_primes(int n);")
+""",
+    header="int c_count_primes(int n);",
+)
 def c_count_primes(n: int) -> int: ...
 
 
@@ -104,18 +109,18 @@ if __name__ == "__main__":
     # Fibonacci(35)
     _, py_t = bench("fib(35)", py_fib, 35)
     _, c_t = bench("fib(35)", c_fib, 35)
-    print(f"{'fib(35)':<25} {fmt(py_t):<12} {fmt(c_t):<12} {py_t/c_t:.1f}x")
+    print(f"{'fib(35)':<25} {fmt(py_t):<12} {fmt(c_t):<12} {py_t / c_t:.1f}x")
 
     # Sum 1M integers
     data = list(range(1_000_000))
     arr = c_array(sum_mod, "long", data)
     _, py_t = bench("sum(1M ints)", py_sum, data)
     _, c_t = bench("sum(1M ints)", lambda: sum_mod.c_sum(arr, len(data)), runs=5)
-    print(f"{'sum(1M ints)':<25} {fmt(py_t):<12} {fmt(c_t):<12} {py_t/c_t:.1f}x")
+    print(f"{'sum(1M ints)':<25} {fmt(py_t):<12} {fmt(c_t):<12} {py_t / c_t:.1f}x")
 
     # Prime sieve up to 1M
     _, py_t = bench("primes(<1M)", py_count_primes, 1_000_000)
     _, c_t = bench("primes(<1M)", c_count_primes, 1_000_000)
-    print(f"{'primes(<1M)':<25} {fmt(py_t):<12} {fmt(c_t):<12} {py_t/c_t:.1f}x")
+    print(f"{'primes(<1M)':<25} {fmt(py_t):<12} {fmt(c_t):<12} {py_t / c_t:.1f}x")
 
     print("=" * 60)
