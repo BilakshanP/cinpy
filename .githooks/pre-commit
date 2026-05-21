@@ -1,0 +1,5 @@
+#!/bin/sh
+VENV=".venv/bin"
+$VENV/ruff check src/ > /dev/null 2>&1 || { echo "pre-commit: ruff check failed (run 'ruff check src/' for details)"; exit 1; }
+$VENV/ruff format --check src/ > /dev/null 2>&1 || { echo "pre-commit: ruff format failed (run 'ruff format src/')"; exit 1; }
+$VENV/basedpyright src/ > /dev/null 2>&1 || { echo "pre-commit: basedpyright failed (run 'basedpyright src/' for details)"; exit 1; }
